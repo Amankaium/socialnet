@@ -11,3 +11,18 @@ python manage.py createsuperuser
 python manage.py runserver
 
 git init
+git add .
+git commit -m "init"
+git branch -M main
+# ваша ссылка
+git remote add origin https://github.com/Amankaium/socialnet.git 
+git push -u origin main
+
+# заливка изменений
+git add .
+git commit -m "my comments"
+git push
+
+# миграции
+python manage.py makemigrations
+python manage.py migrate
