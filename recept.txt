@@ -1,0 +1,13 @@
+python -m venv venv
+call venv\Scripts\activate
+pip install django
+pip freeze > requirements.txt
+django-admin startproject socialnet . # точка в конце
+python manage.py startapp core
+python manage.py runserver
+python manage.py migrate
+python manage.py createsuperuser
+# указать логин и пароль
+python manage.py runserver
+
+git init
