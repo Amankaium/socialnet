@@ -1,0 +1,21 @@
+<h1>
+    Hello world
+</h1>
+<div>
+    Это домашняя страница
+</div>
+{{ name }}
+<div>
+    <a href="/profile/{{ request.user.profile.id }}">
+        Профиль {{ request.user.username }}
+    </a>
+</div>
+
+<h2>Посты</h2>
+{% for post in posts %}
+    <div>
+        <a href="/posts/{{ post.id }}">
+            {{ post.id }}. {{ post.name }}
+        </a>
+    </div>
+{% endfor %}

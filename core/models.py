@@ -41,6 +41,7 @@ class Post(models.Model):
         blank=True,
         verbose_name='Категории',
     )
+    likes = models.IntegerField('Лайк', default=0)
 
     def __str__(self):
         return f'{self.name} - {self.status}'
@@ -90,4 +91,37 @@ class Comment(models.Model):
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
         ordering = ['created_at']
-    
+
+
+class Short(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        verbose_name='Автор',
+        related_name='short'
+    )
+    video = models.FileField('Видео', upload_to='video_post/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    views_qty = models.PositiveIntegerField('Просмотры', default=0)
+
+
+    class Meta:
+        verbose_name = 'Видео'
+        verbose_name_plural = 'Видео'
+
+    def __str__(self):
+        return f'{self.video} - {self.created_at}'
+
+
+class SavedPosts(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    post = models.ManyToManyField(Post, verbose_name='saved post', related_name='saved_posts')
+
+    class Meta:
+        verbose_name = 'saved post'
+        verbose_name_plural = 'saved posts'
+
+    def __str__(self):
+        return f'{self.user}'

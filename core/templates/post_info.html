@@ -1,0 +1,14 @@
+<h2>Пост</h2>
+<div>
+    Заголовок: {{ post.name }}
+</div>
+    {% if post.photo %}
+        <img src="{{ post.photo.url }}" height="200px">
+    {% endif %}
+<div>
+    Описание: {{ post.description }}
+</div>
+<div>
+    Кол-во лайков: {{ post.likes }}
+</div>
+
