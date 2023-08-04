@@ -24,9 +24,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage),
-    # path('shorts/', shorts),  # To Do
     path('posts/<int:id>', post_detail),
     path('profile/<int:id>', profile_detail, name='profile'),
+    path('shorts/', shorts, name='shorts-list'),
+    path('short/<int:id>', short_info, name='shorts-info'),
+
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

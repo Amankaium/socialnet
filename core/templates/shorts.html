@@ -7,10 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Профиль {{ profile.user.username }}</h2>
-    <div>Ник: {{ profile.nickname }}</div>
-    <div>{{ profile.description }}</div>
+    <h2>Shorts</h2>
+    {% for short in shorts_list %}
+        <div>
+            <a href="{% url 'shorts-info' short.id %}">
+                {{ short.user }} - {{ short.created_at }}
+            </a>
+        </div>
+    {% endfor %}
 </body>
 </html>
-
-

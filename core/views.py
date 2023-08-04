@@ -21,3 +21,14 @@ def profile_detail(request, id):
     context = {}
     context['profile'] = Profile.objects.get(id=id)
     return render(request, 'profile_detail.html', context)
+
+
+def shorts(request):
+    context = {
+        'shorts_list': Short.objects.all()
+    }
+    return render(request, "shorts.html", context)
+
+def short_info(request, id):
+    context = {"short": Short.objects.get(id=id)}
+    return render(request, "short_info.html", context)
