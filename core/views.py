@@ -32,3 +32,9 @@ def shorts(request):
 def short_info(request, id):
     context = {"short": Short.objects.get(id=id)}
     return render(request, "short_info.html", context)
+
+
+def saved_posts_list(request):
+    posts = Post.objects.filter(saved_posts__user=request.user)
+    context = {'posts': posts}
+    return render(request, 'saved_posts.html', context)

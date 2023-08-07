@@ -28,6 +28,7 @@ urlpatterns = [
     path('profile/<int:id>', profile_detail, name='profile'),
     path('shorts/', shorts, name='shorts-list'),
     path('short/<int:id>', short_info, name='shorts-info'),
+    path('saved_posts/', saved_posts_list, name='saved-posts'),
 
 ]
 
