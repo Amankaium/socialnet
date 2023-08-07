@@ -38,3 +38,13 @@ def saved_posts_list(request):
     posts = Post.objects.filter(saved_posts__user=request.user)
     context = {'posts': posts}
     return render(request, 'saved_posts.html', context)
+
+
+def user_posts(request, user_id):
+    user = User.objects.get(id=user_id)
+    posts = Post.objects.filter(creator=user)
+    context = {
+        "user": user,
+        "posts": posts
+    }
+    return render(request, 'user_posts.html', context)

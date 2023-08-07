@@ -1,5 +1,11 @@
 <h2>Пост</h2>
 <div>
+    Автор:
+    <a href="{% url 'user-posts' post.creator.id %}">
+        {{ post.creator.username }}
+    </a>
+</div>
+<div>
     Заголовок: {{ post.name }}
 </div>
     {% if post.photo %}

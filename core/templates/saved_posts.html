@@ -9,7 +9,11 @@
 <body>
     <div>
         {% for post in posts %}
-            <div>{{ post.name }}</div>
+            <div>
+                <a href="/posts/{{ post.id }}">
+                    {{ post.name }}
+                </a>
+            </div>
         {% endfor %}
     </div>
 </body>
