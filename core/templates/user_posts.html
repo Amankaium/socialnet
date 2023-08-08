@@ -10,7 +10,9 @@
                 </a>
                 {% if post.photo %}
                     <div>
-                        <img src="{{ post.photo.url }}">
+                        <a href="/posts/{{ post.id }}">
+                            <img src="{{ post.photo.url }}">
+                        </a>
                     </div>
                 {% endif %}
                 <p>
