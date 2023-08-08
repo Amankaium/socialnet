@@ -19,3 +19,7 @@
 .post:hover {
     background-color: #ddd;
 }
+
+.my-focus:hover {
+    font-size: 18px;
+}
