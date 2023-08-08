@@ -48,3 +48,18 @@ def user_posts(request, user_id):
         "posts": posts
     }
     return render(request, 'user_posts.html', context)
+
+
+def create_post(request):
+    if request.method == "GET":
+        return render(request, "create_post_form.html")
+    elif request.method == "POST":
+        data = request.POST  # словарь с данными с html-формы
+        # print(data)
+        new_post = Post()
+        new_post.name = data["post_name"]
+        new_post.description = data["description"]
+        new_post.photo = request.FILES["photo"]
+        new_post.creator = request.user
+        new_post.save()
+        return HttpResponse("done")

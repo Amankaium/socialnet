@@ -30,6 +30,7 @@ urlpatterns = [
     path('short/<int:id>', short_info, name='shorts-info'),
     path('saved_posts/', saved_posts_list, name='saved-posts'),
     path('<int:user_id>/', user_posts, name='user-posts'),
+    path('add-post/', create_post, name='add-post'),
 
 ]
 

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Добавление поста</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            <input type="text" name="post_name">
+        </p>
+        <p>
+            <textarea name="description" cols="20" rows="5"></textarea>
+        </p>
+        <p>
+            <input type="file" name="photo">
+        </p>
+        <button>Сохранить</button>
+    </form>
+{% endblock %}
