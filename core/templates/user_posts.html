@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h2>Посты пользователя: {{ user.username }}</h2>
-    <div>
+    <div class="row container">
         {% for post in posts %}
-            <div class="post">
+            <div class="post col-lg-4 col-md-6">
                 <a href="/posts/{{ post.id }}">
                     {{ post.name }}
                 </a>
@@ -24,9 +16,9 @@
                 <p>
                     Лайки: {{ post.likes }}
                 </p>
+                <!-- <hr> прямая линия -->
             </div>
-            <hr> <!-- прямая линия -->
+
         {% endfor %}
     </div>
-</body>
-</html>
+{% endblock %}
