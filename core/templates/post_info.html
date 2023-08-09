@@ -1,3 +1,9 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+
+{% block content %}
+
 <h2>Пост</h2>
 {% if post.creator %}
     <div>
@@ -19,4 +25,11 @@
 <div>
     Кол-во лайков: {{ post.likes }}
 </div>
+<h3>Добавить комментарий</h3>
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form comment_form %}
+    <button class="btn btn-info">Добавить</button>
+</form>
 
+{% endblock %}

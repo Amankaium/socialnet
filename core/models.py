@@ -83,6 +83,11 @@ class Comment(models.Model):
     comment_text = models.TextField()
     likes_qty = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        null=True, blank=False
+    )
 
     def __str__(self):
         return self.comment_text[:20]

@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from .models import *
+from .forms import CommentForm
 
 # Create your views here.
 def homepage(request):
@@ -14,7 +15,19 @@ def post_detail(request, id):
     context = {}
     post_object = Post.objects.get(id=id)
     context["post"] = post_object
-    return render(request, "post_info.html", context)
+    comment_form = CommentForm()
+    context["comment_form"] = comment_form
+    if request.method == "GET":
+        return render(request, "post_info.html", context)
+    elif request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.created_by = request.user
+            new_comment.post = post_object
+            new_comment.save()
+            return HttpResponse("done")
+
 
 
 def profile_detail(request, id):

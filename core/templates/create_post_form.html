@@ -5,14 +5,14 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <p>
-            <input type="text" name="post_name">
+            <input class="form-control" type="text" name="post_name">
         </p>
         <p>
-            <textarea name="description" cols="20" rows="5"></textarea>
+            <textarea class="form-control" name="description" cols="20" rows="5"></textarea>
         </p>
         <p>
-            <input type="file" name="photo">
+            <input class="form-control" type="file" name="photo">
         </p>
-        <button>Сохранить</button>
+        <button class="btn btn-warning">Сохранить</button>
     </form>
 {% endblock %}
