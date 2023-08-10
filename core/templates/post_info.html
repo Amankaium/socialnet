@@ -25,11 +25,28 @@
 <div>
     Кол-во лайков: {{ post.likes }}
 </div>
+<div>
+    {% if post in request.user.savedposts.post.all %}
+        <div class="btn btn-info">Уже в сохраннённом</div>
+    {% else %}
+        <form action="/add-saved/" method="POST">
+            {% csrf_token %}
+            <input type="number" name="post_id" value="{{ post.id }}" hidden>
+            <button class="btn btn-success">Добавить в Сохранённое</button>
+        </form>
+    {% endif %}
+</div>
 <h3>Добавить комментарий</h3>
 <form method="POST">
     {% csrf_token %}
     {% bootstrap_form comment_form %}
     <button class="btn btn-info">Добавить</button>
 </form>
+<h4>Комментарии</h4>
+{% for comment in comments %}
+    <div>
+        <b>{{ comment.created_by }}</b> {{ comment.comment_text }}
+    </div>
+{% endfor %}
 
 {% endblock %}

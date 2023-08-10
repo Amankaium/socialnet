@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import *
 from .forms import CommentForm
 
@@ -17,6 +17,8 @@ def post_detail(request, id):
     context["post"] = post_object
     comment_form = CommentForm()
     context["comment_form"] = comment_form
+    comments_list = Comment.objects.filter(post=post_object)
+    context['comments'] = comments_list
     if request.method == "GET":
         return render(request, "post_info.html", context)
     elif request.method == "POST":
@@ -27,7 +29,6 @@ def post_detail(request, id):
             new_comment.post = post_object
             new_comment.save()
             return HttpResponse("done")
-
 
 
 def profile_detail(request, id):
@@ -76,3 +77,27 @@ def create_post(request):
         new_post.creator = request.user
         new_post.save()
         return HttpResponse("done")
+
+
+def add_short(request):
+    if request.method == "GET":
+        return render(request, 'short_form.html')
+    elif request.method == "POST":
+        new_short_object = Short(
+            user=request.user,
+            video=request.FILES["video_file"]
+        )
+        new_short_object.save()
+        return redirect('shorts-info', id=new_short_object.id)
+        
+
+def add_saved(request):
+    if request.method == "POST":
+        post_id = request.POST["post_id"]
+        post_object = Post.objects.get(id=post_id)
+        saved_post, created = SavedPosts.objects.get_or_create(
+            user=request.user
+        )
+        saved_post.post.add(post_object)
+        saved_post.save()
+        return redirect('/saved_posts/')
