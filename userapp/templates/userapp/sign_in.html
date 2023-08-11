@@ -1,0 +1,10 @@
+<form method="POST">
+    {% csrf_token %}
+    <p>
+        <input type="text" name="username" placeholder="Логин">
+    </p>
+    <p>
+        <input type="password" name="password" placeholder="Пароль">
+    </p>
+    <button>Войти</button>
+</form>

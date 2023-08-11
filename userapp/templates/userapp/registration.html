@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            <p>
+                <input type="text" name="login" placeholder="login">
+            </p>
+            <p>
+                <input type="password" name="password_1" placeholder="Пароль">
+            </p>
+            <p>
+                <input type="password" name="password_2" placeholder="Пароль ещё раз">
+            </p>
+            <p>
+                <input type="text" name="first_name" placeholder="Имя">
+            </p>
+            <p>
+                <input type="text" name="last_name" placeholder="Фамилия">
+            </p>
+            <p>
+                <input type="email" name="email" placeholder="Почта">
+            </p>
+            <button>Завершить</button>
+        </form>
+    </div>
+
+{% endblock %}

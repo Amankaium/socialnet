@@ -43,6 +43,16 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'add-short' %}">Добавить short</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'sign-out' %}">Выход</a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'registration' %}">Регистрация</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'sign-in' %}">Вход</a>
+                </li>
               {% endif %}
             </ul>
             <form class="d-flex">
@@ -53,15 +63,29 @@
         </div>
     </nav>
     <div class="row">
-        <div class="col-2">
+        <div class="col-3">
+            <div>
+              {% if request.user.is_authenticated %}
+                Привет, {{ request.user.username }}!
+              {% else %}
+                Пожалуйста, авторизуйтесь
+              {% endif %}
+            </div>
             <div class="my-focus">Главная</div>
             <div class="my-focus">Поиск</div>
             <div class="my-focus">Интересное</div>
         </div>
-        <div class="col-10">
-            {% block content %}
-              <h1>hello world</h1>
-            {% endblock %}
+        <div class="col-9">
+          {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+          {% endif %}
+          {% block content %}
+            <h1>hello world</h1>
+          {% endblock %}
         </div>
     </div>
     

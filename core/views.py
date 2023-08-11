@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import CommentForm
 
@@ -79,7 +80,12 @@ def create_post(request):
         return HttpResponse("done")
 
 
+# from django.contrib.auth.decorators import login_required
+@login_required(login_url='/users/sign-in/')
 def add_short(request):
+    # if not request.user.is_authenticated:
+    #     return redirect('/')
+
     if request.method == "GET":
         return render(request, 'short_form.html')
     elif request.method == "POST":
