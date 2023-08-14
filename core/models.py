@@ -19,7 +19,7 @@ class Post(models.Model):
 
     name = models.CharField('Header',max_length=80)
     description = models.TextField('Description', null=True)
-    photo = models.ImageField('Photo', null=True, blank=True, upload_to="post_images/")
+    photo = models.ImageField('Photo', null=True, blank=False, upload_to="post_images/")
     status = models.CharField(
         'Status',
         max_length=200,

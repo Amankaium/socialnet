@@ -17,53 +17,12 @@
     >
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/">
-            <img src="{% static 'logo.png' %}" height="40px">
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="mynavbar">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="/">Главная</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'shorts-list' %}">Shorts</a>
-              </li>
-              {% if request.user.is_authenticated %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'saved-posts' %}">SavedPosts</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'add-post' %}">Добавить пост</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'add-short' %}">Добавить short</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'sign-out' %}">Выход</a>
-                </li>
-              {% else %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'registration' %}">Регистрация</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'sign-in' %}">Вход</a>
-                </li>
-              {% endif %}
-            </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="text" placeholder="Search">
-              <button class="btn btn-danger" type="button">Search</button>
-            </form>
-          </div>
-        </div>
-    </nav>
     <div class="row">
         <div class="col-3">
+            <a class="navbar-brand" href="/">
+              <img src="{% static 'logo.png' %}" height="40px">
+              Social NET
+            </a>
             <div>
               {% if request.user.is_authenticated %}
                 Привет, {{ request.user.username }}!
@@ -71,9 +30,48 @@
                 Пожалуйста, авторизуйтесь
               {% endif %}
             </div>
-            <div class="my-focus">Главная</div>
-            <div class="my-focus">Поиск</div>
+            <div class="my-focus">
+              <a href="/">
+                Главная
+              </a> 
+            </div>
+            <div class="my-focus">
+              <a href="{% url 'search' %}">
+                Поисковый запрос
+              </a>
+            </div>
             <div class="my-focus">Интересное</div>
+            <div class="my-focus">
+              <a href="{% url 'shorts-list' %}">
+                Shorts
+              </a>
+            </div>
+          {% if request.user.is_authenticated %}
+            <div class="my-focus">Сообщения</div>
+            <div class="my-focus">Уведомления</div>
+            <div class="my-focus">
+              <a href="{% url 'add-post' %}">
+                Добавить пост
+              </a>
+            </div>
+            <div class="my-focus">
+              <a href="{% url 'add-short' %}">
+                Добавить short
+              </a>
+            </div>
+            <div class="my-focus">
+              <a href="{% url 'profile' request.user.profile.id %}">
+                Профиль
+              </a>
+            </div>
+          {% else %}
+            <div class="my-focus">
+              <a href="{% url 'registration' %}">Регистрация</a>
+            </div>
+            <div class="my-focus">
+              <a href="{% url 'sign-in' %}">Вход</a>
+            </div>
+          {% endif %}
         </div>
         <div class="col-9">
           {% if messages %}

@@ -1,34 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="alert alert-success">
-        Hello world
+    <div class="row">
+        {% for short in shorts %}
+            <div class="col">
+                <a href="{% url 'shorts-info' short.id %}">
+                    <div>
+                        <video
+                            class="custom-circle"
+                            width="100px"
+                            src="{{ short.video.url }}">
+                        </video>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
     </div>
-    <h1>Test</h1>
-    <div class="hulk">
-        Это домашняя страница
-    </div>
-    <div>
-        Текст 2
-    </div>
-    {{ name }} <a href="">hello</a>
-    <a href="" class="hulk">hello</a><br>
-    <a href="">hello</a>
-    <div>
-        <a href="/profile/{{ request.user.profile.id }}">
-            Профиль {{ request.user.username }}
-        </a>
-    </div>
+    <hr>
 
+    {% include 'includes/search_form.html' %}
     <h2>Посты</h2>
-    <ol>
     {% for post in posts %}
-        <li>
-            <a href="/posts/{{ post.id }}">
-                {{ post.name }}
+        <div>
+            <a href="{% url 'user-posts' post.creator.id %}">
+                {{ post.creator.username }}
             </a>
-        </li>
-    {% endfor %}
-    </ol>     
+        </div>
+        <div>
+            {% if post.photo %}
+                <a href="{% url 'post-detail' post.id %}">
+                    <img src="{{ post.photo.url }}" height="200px">
+                </a>
+            {% endif %}
+        </div>
+        <hr>
+    {% endfor %}   
 
 {% endblock %}

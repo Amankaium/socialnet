@@ -23,3 +23,8 @@
 .my-focus:hover {
     font-size: 18px;
 }
+
+.custom-circle {
+    border: 1px solid red;
+    border-radius: 50%;
+}
