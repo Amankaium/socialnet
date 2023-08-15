@@ -4,5 +4,58 @@
     <h2>Профиль {{ profile.user.username }}</h2>
     <div>Ник: {{ profile.nickname }}</div>
     <div>{{ profile.description }}</div>
-    </body>
+    <div>Подписчиков: {{ profile.subscribers.count }}</div>
+    
+    <h3>Список подписчиков:</h3>
+    <div>
+        {% for user in profile.subscribers.all %}
+            <div>{{ user.username }}</div>
+        {% endfor %}
+    </div>
+
+    <p>
+        <form method="POST">
+            {% csrf_token %}
+            <button class="btn btn-warning">Подписаться (эта view)</button>
+        </form>
+    </p>
+
+
+    <p>
+        {% if request.user in profile.subscribers.all %}
+            <form>
+                <button class="btn btn-danger">Отписаться</button>
+            </form>
+        {% else %}
+            <form action="/subscribe/{{ profile.id }}/" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-info">Подписаться (другая view)</button>
+            </form>
+        {% endif %}
+    </p>
+    
+    
+    <h2>Посты пользователя</h2>
+
+    <div class="row container">
+        {% for post in profile.user.posts.all %}
+            <div class="post col-lg-4 col-md-6">
+                <a href="/posts/{{ post.id }}">
+                    {{ post.name }}
+                </a>
+                {% if post.photo %}
+                    <div>
+                        <a href="/posts/{{ post.id }}">
+                            <img src="{{ post.photo.url }}">
+                        </a>
+                    </div>
+                {% endif %}
+                <p>
+                    Лайки: {{ post.likes }}
+                </p>
+                <!-- <hr> прямая линия -->
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock %}

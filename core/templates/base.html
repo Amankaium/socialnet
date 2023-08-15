@@ -75,11 +75,17 @@
         </div>
         <div class="col-9">
           {% if messages %}
-            <ul class="messages">
+            <div class="messages">
                 {% for message in messages %}
-                  <li>{{ message }}</li>
+                  <div 
+                    {% if message.tags %}
+                      class="alert alert-{{ message.tags }}"
+                    {% endif %}
+                  >
+                    {{ message }}
+                  </div>
                 {% endfor %}
-            </ul>
+            </div>
           {% endif %}
           {% block content %}
             <h1>hello world</h1>

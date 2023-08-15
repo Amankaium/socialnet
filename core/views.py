@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q
 from .models import *
 from .forms import CommentForm
@@ -38,7 +39,13 @@ def post_detail(request, id):
 
 def profile_detail(request, id):
     context = {}
-    context['profile'] = Profile.objects.get(id=id)
+    profile = Profile.objects.get(id=id)
+    context['profile'] = profile
+
+    if request.method == "POST":
+        profile.subscribers.add(request.user)
+        profile.save()
+    
     return render(request, 'profile_detail.html', context)
 
 
@@ -124,3 +131,11 @@ def search_result(request):
     )
     context = {"posts": posts}
     return render(request, 'home.html', context)
+
+
+def subscribe(request, profile_id):
+    profile = Profile.objects.get(id=profile_id)
+    profile.subscribers.add(request.user)
+    profile.save()
+    messages.success(request, "Вы успешно подписались!")
+    return redirect(f'/profile/{profile.id}/')

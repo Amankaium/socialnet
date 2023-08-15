@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Посты пользователя: {{ user.username }}</h2>
+    <h2>Посты пользователя:
+        <a href="{% url 'profile' user.profile.id %}">
+            {{ user.username }}
+        </a>
+    </h2>
     <div class="row container">
         {% for post in posts %}
             <div class="post col-lg-4 col-md-6">

@@ -9,6 +9,11 @@ class Profile(models.Model):
     )
     nickname = models.CharField(max_length=55)
     description = models.TextField(null=True, blank=True)
+    subscribers = models.ManyToManyField(
+        to=User,
+        related_name='followed_profile',
+        blank=True,
+    )
     
 
 class Post(models.Model):

@@ -35,6 +35,7 @@ urlpatterns = [
     path('add-saved/', add_saved, name='add-saved'),
     path('search/', search, name='search'),
     path('search-result/', search_result, name='search-result'),
+    path('subscribe/<int:profile_id>/', subscribe, name='subscribe'),
     path('users/', include('userapp.urls')),
 
 ]
