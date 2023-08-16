@@ -48,7 +48,12 @@
             </div>
           {% if request.user.is_authenticated %}
             <div class="my-focus">Сообщения</div>
-            <div class="my-focus">Уведомления</div>
+            <div class="my-focus">
+              <a href="{% url 'notifications' %}">
+                Уведомления - 
+                {{ request.user.notification_set.count }}
+              </a>
+            </div>
             <div class="my-focus">
               <a href="{% url 'add-post' %}">
                 Добавить пост

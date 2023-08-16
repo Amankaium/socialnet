@@ -135,3 +135,12 @@ class SavedPosts(models.Model):
 
     def __str__(self):
         return f'{self.user}'
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.PROTECT)
+    text = models.CharField(max_length=255)
+    is_showed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.text

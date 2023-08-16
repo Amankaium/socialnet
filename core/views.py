@@ -56,7 +56,10 @@ def shorts(request):
     return render(request, "shorts.html", context)
 
 def short_info(request, id):
-    context = {"short": Short.objects.get(id=id)}
+    short = Short.objects.get(id=id)
+    short.views_qty += 1
+    short.save()
+    context = {"short": short}
     return render(request, "short_info.html", context)
 
 
@@ -138,4 +141,32 @@ def subscribe(request, profile_id):
     profile.subscribers.add(request.user)
     profile.save()
     messages.success(request, "Вы успешно подписались!")
+
+    new_notification = Notification(
+        user=profile.user,
+        text=f"Пользователь {request.user.username} подписался на вас!"
+    )
+    new_notification.save()
+
     return redirect(f'/profile/{profile.id}/')
+
+
+def unsubscribe(request, profile_id):
+    profile = Profile.objects.get(id=profile_id)
+    profile.subscribers.remove(request.user)
+    profile.save()
+    messages.warning(request, "Вы успешно оптисались!")
+    return redirect(f'/profile/{profile.id}/')
+
+
+def notifications(request):
+    notifications_list = Notification.objects.filter(user=request.user)
+    for notification in notifications_list:
+        notification.is_showed = True
+    Notification.objects.bulk_update(notifications_list, ['is_showed'])
+    context = {"notifications": notifications_list}
+    return render(
+        request=request,
+        template_name='notifications.html',
+        context=context,
+    )

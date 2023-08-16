@@ -23,7 +23,8 @@
 
     <p>
         {% if request.user in profile.subscribers.all %}
-            <form>
+            <form action="{% url 'unsubscribe' profile.id %}" method="POST">
+                {% csrf_token %}
                 <button class="btn btn-danger">Отписаться</button>
             </form>
         {% else %}

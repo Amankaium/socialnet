@@ -36,6 +36,8 @@ urlpatterns = [
     path('search/', search, name='search'),
     path('search-result/', search_result, name='search-result'),
     path('subscribe/<int:profile_id>/', subscribe, name='subscribe'),
+    path('unsubscribe/<int:profile_id>/', unsubscribe, name='unsubscribe'),
+    path('notifications/', notifications, name='notifications'),
     path('users/', include('userapp.urls')),
 
 ]

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Ваши уведомления</h3>
+    {% for notification in notifications %}
+        <hr>
+        <div>
+            {{ notification.text }}
+        </div>
+    {% endfor %}
+{% endblock %}
