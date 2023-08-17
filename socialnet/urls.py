@@ -26,6 +26,7 @@ urlpatterns = [
     path('', homepage),
     path('posts/<int:id>/', post_detail, name='post-detail'),
     path('profile/<int:id>/', profile_detail, name='profile'),
+    path('add-profile/', add_profile, name='add-profile'),
     path('shorts/', shorts, name='shorts-list'),
     path('short/<int:id>/', short_info, name='shorts-info'),
     path('saved_posts/', saved_posts_list, name='saved-posts'),

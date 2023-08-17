@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form profile_form %}
+        <button class="btn btn-info">Сохранить</button>
+    </form>
+</div>
+
+{% endblock %}

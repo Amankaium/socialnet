@@ -14,6 +14,19 @@ class Profile(models.Model):
         related_name='followed_profile',
         blank=True,
     )
+    photo = models.ImageField(
+        upload_to='profile_photo/',
+        null=True
+    )
+    link_fb = models.CharField(
+        max_length=255, null=True, blank=True
+    )
+    whatsapp = models.CharField(
+        max_length=30, null=True, blank=True
+    )
+    telegram = models.CharField(
+        max_length=55, null=True, blank=True
+    )
     
 
 class Post(models.Model):
@@ -115,7 +128,11 @@ class Short(models.Model):
     video = models.FileField('Видео', upload_to='video_post/')
     created_at = models.DateTimeField(auto_now_add=True)
     views_qty = models.PositiveIntegerField('Просмотры', default=0)
-
+    viewed_users = models.ManyToManyField(
+        to=User,
+        blank=True,
+        related_name='viewed_shorts'
+    )
 
     class Meta:
         verbose_name = 'Видео'

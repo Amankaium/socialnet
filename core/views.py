@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from .models import *
-from .forms import CommentForm
+from .forms import CommentForm, ProfileForm
 
 # Create your views here.
 def homepage(request):
@@ -28,13 +28,27 @@ def post_detail(request, id):
     if request.method == "GET":
         return render(request, "post_info.html", context)
     elif request.method == "POST":
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.created_by = request.user
-            new_comment.post = post_object
-            new_comment.save()
-            return HttpResponse("done")
+        if 'like' in request.POST:
+            post_object.likes += 1
+            post_object.save()
+            Notification.objects.create(
+                user=post_object.creator,
+                text=f"{request.user.username} лайкнул ваш пост с id {post_object.id} "
+            )
+            return redirect(post_detail, id=id)
+        else:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.created_by = request.user
+                new_comment.post = post_object
+                new_comment.save()
+
+                Notification.objects.create(
+                    user=post_object.creator,
+                    text=f"{request.user.username} оставил комментарий"
+                )
+                return HttpResponse("done")
 
 
 def profile_detail(request, id):
@@ -49,6 +63,23 @@ def profile_detail(request, id):
     return render(request, 'profile_detail.html', context)
 
 
+def add_profile(request):
+    profile_form = ProfileForm()
+    context = {'profile_form': profile_form}
+
+    if request.method == "POST":
+        profile_form = ProfileForm(request.POST, request.FILES)
+        if profile_form.is_valid():
+            profile_object = profile_form.save(commit=False)
+            profile_object.user = request.user
+            profile_object.save()
+            return redirect(profile_detail, id=profile_object.id)
+        else:
+            return HttpResponse("Not valid")
+
+    return render(request, 'add_profile.html', context)
+
+
 def shorts(request):
     context = {
         'shorts_list': Short.objects.all()
@@ -58,6 +89,7 @@ def shorts(request):
 def short_info(request, id):
     short = Short.objects.get(id=id)
     short.views_qty += 1
+    short.viewed_users.add(request.user)
     short.save()
     context = {"short": short}
     return render(request, "short_info.html", context)
@@ -170,3 +202,4 @@ def notifications(request):
         template_name='notifications.html',
         context=context,
     )
+

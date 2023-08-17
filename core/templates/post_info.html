@@ -26,6 +26,12 @@
     Кол-во лайков: {{ post.likes }}
 </div>
 <div>
+    <form method="POST">
+        {% csrf_token %}
+        <button name="like">Like</button>
+    </form>
+</div>
+<div>
     {% if post in request.user.savedposts.post.all %}
         <div class="btn btn-info">Уже в сохраннённом</div>
     {% else %}

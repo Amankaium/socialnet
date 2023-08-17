@@ -64,10 +64,21 @@
                 Добавить short
               </a>
             </div>
+            {% if request.user.profile %}
+              <div class="my-focus">
+                <a href="{% url 'profile' request.user.profile.id %}">
+                  Профиль
+                </a>
+              </div>
+            {% else %}
+              <div class="my-focus">
+                <a href="{% url 'add-profile' %}">
+                  Добавить профиль
+                </a>
+              </div>
+            {% endif %}
             <div class="my-focus">
-              <a href="{% url 'profile' request.user.profile.id %}">
-                Профиль
-              </a>
+              <a href="{% url 'sign-out' %}">Выход</a>
             </div>
           {% else %}
             <div class="my-focus">
