@@ -137,7 +137,6 @@ def add_post_form(request):
         else:
             messages.warning(request, f"Форма не валидна: {post_form.errors}")
 
-
     post_form = PostForm()
     context = {}
     context["post_form"] = post_form
@@ -159,7 +158,19 @@ def add_short(request):
         )
         new_short_object.save()
         return redirect('shorts-info', id=new_short_object.id)
-        
+
+
+def update_short(request, id):
+    short = Short.objects.get(id=id)
+    if request.method == "POST":
+        new_description = request.POST["description"]
+        short.description = new_description
+        short.save()
+        return redirect(short_info, id=short.id)
+
+    context = {'short': short}
+    return render(request, 'update_short.html', context)
+
 
 def add_saved(request):
     if request.method == "POST":

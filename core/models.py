@@ -133,6 +133,7 @@ class Short(models.Model):
         blank=True,
         related_name='viewed_shorts'
     )
+    description = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Видео'

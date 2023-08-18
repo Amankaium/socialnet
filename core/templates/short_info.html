@@ -18,4 +18,10 @@
     <div>
         Уникальные просмотры: {{ short.viewed_users.count }}
     </div>
+    <div>
+        Описание: {{ short.description }}
+    </div>
+    <a href="{% url 'update-short' short.id %}" class="btn btn-info">
+        Изменить
+    </a>
 {% endblock %}
