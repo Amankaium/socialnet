@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from .models import *
-from .forms import CommentForm, ProfileForm
+from .forms import *
 
 # Create your views here.
 def homepage(request):
@@ -124,6 +124,24 @@ def create_post(request):
         new_post.creator = request.user
         new_post.save()
         return HttpResponse("done")
+
+
+def add_post_form(request):
+    if request.method == "POST":
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            post_object = post_form.save(commit=False)
+            post_object.creator = request.user
+            post_object.save()
+            return redirect(post_detail, id=post_object.id)
+        else:
+            messages.warning(request, f"Форма не валидна: {post_form.errors}")
+
+
+    post_form = PostForm()
+    context = {}
+    context["post_form"] = post_form
+    return render(request, 'create_post_django_form.html', context)
 
 
 # from django.contrib.auth.decorators import login_required

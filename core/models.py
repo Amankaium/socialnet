@@ -35,8 +35,8 @@ class Post(models.Model):
         ('Unposted', 'Unposted')
     )
 
-    name = models.CharField('Header',max_length=80)
-    description = models.TextField('Description', null=True)
+    name = models.CharField('Header', max_length=80, null=True, blank=True)
+    description = models.TextField('Description', null=True, blank=True)
     photo = models.ImageField('Photo', null=True, blank=False, upload_to="post_images/")
     status = models.CharField(
         'Status',

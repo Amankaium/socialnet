@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment, Profile
+from .models import *
 
 
 class CommentForm(forms.ModelForm):
@@ -14,4 +14,13 @@ class ProfileForm(forms.ModelForm):
         fields = [
             'nickname', 'description', 'link_fb',
             'whatsapp', 'telegram', 'photo'
+        ]
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+            'name',
+            'photo',
         ]

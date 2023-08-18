@@ -32,6 +32,7 @@ urlpatterns = [
     path('saved_posts/', saved_posts_list, name='saved-posts'),
     path('<int:user_id>/', user_posts, name='user-posts'),
     path('add-post/', create_post, name='add-post'),
+    path('add-post-form/', add_post_form, name='add-post-form'),
     path('add-short/', add_short, name='add-short'),
     path('add-saved/', add_saved, name='add-saved'),
     path('search/', search, name='search'),
