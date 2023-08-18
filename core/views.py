@@ -127,8 +127,12 @@ def create_post(request):
 
 
 def update_post(request, id):
+
     context = {}
     post_object = Post.objects.get(id=id)
+
+    if request.user != post_object.creator:
+        return HttpResponse("нет доступа")
 
     if request.method == "POST":
         post_form = PostForm(
@@ -139,10 +143,25 @@ def update_post(request, id):
         if post_form.is_valid():
             post_form.save()
             return redirect(post_detail, id=post_object.id)
+        else:
+            messages.warning(request, "Форма не валидна")
+            context["post_form"] = post_form
+            return render(request, 'update_post.html', context)
 
     post_form = PostForm(instance=post_object)
     context["post_form"] = post_form
     return render(request, 'update_post.html', context)
+
+
+def detele_post(request, id):
+    post = Post.objects.get(id=id)
+
+    if request.user != post.creator:
+        return HttpResponse("нет доступа")
+
+    post.delete()
+    return redirect(homepage)
+
 
 def add_post_form(request):
     if request.method == "POST":

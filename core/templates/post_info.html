@@ -31,7 +31,7 @@
         <button name="like">Like</button>
     </form>
 </div>
-<div>
+<p>
     {% if post in request.user.savedposts.post.all %}
         <div class="btn btn-info">Уже в сохраннённом</div>
     {% else %}
@@ -41,10 +41,15 @@
             <button class="btn btn-success">Добавить в Сохранённое</button>
         </form>
     {% endif %}
-</div>
-<p>
-    <a href="{% url 'update-post' post.id %}">Изменить</a>
 </p>
+{% if request.user == post.creator %}
+    <p>
+        <a class="btn btn-success" href="{% url 'update-post' post.id %}">Изменить</a>
+    </p>
+    <p>
+        <a class="btn btn-danger" href="{% url 'delete-post' post.id %}">Удалить</a>
+    </p>
+{% endif %}
 <h3>Добавить комментарий</h3>
 <form method="POST">
     {% csrf_token %}
