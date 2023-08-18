@@ -126,6 +126,24 @@ def create_post(request):
         return HttpResponse("done")
 
 
+def update_post(request, id):
+    context = {}
+    post_object = Post.objects.get(id=id)
+
+    if request.method == "POST":
+        post_form = PostForm(
+            data=request.POST,
+            files=request.FILES,
+            instance=post_object
+        )
+        if post_form.is_valid():
+            post_form.save()
+            return redirect(post_detail, id=post_object.id)
+
+    post_form = PostForm(instance=post_object)
+    context["post_form"] = post_form
+    return render(request, 'update_post.html', context)
+
 def add_post_form(request):
     if request.method == "POST":
         post_form = PostForm(request.POST, request.FILES)
