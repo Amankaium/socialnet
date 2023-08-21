@@ -2,8 +2,26 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.views import View
 from .models import *
 from .forms import *
+
+
+class NoContextView(View):
+    template_name = None # required
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+class AboutView(NoContextView):
+    template_name = 'about.html'
+
+class ContactsView(NoContextView):
+    template_name = 'contacts.html'
+
+# class AboutView(View):
+#     def get(self, request):
+#         return render(request, 'about.html')
 
 # Create your views here.
 def homepage(request):
@@ -297,3 +315,6 @@ def comment_delete(request, id):
 
     comment.delete()
     return redirect(post_detail, id=comment.post.id)
+
+
+

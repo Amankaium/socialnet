@@ -45,6 +45,8 @@ urlpatterns = [
     path('notifications/', notifications, name='notifications'),
     path('comment-edit/<int:id>/', comment_edit, name='comment-edit'),
     path('comment-delete/<int:id>/', comment_delete, name='comment-delete'),
+    path('about/', AboutView.as_view(), name='about'),
+    path('contacts/', ContactsView.as_view(), name='contacts'),
     path('users/', include('userapp.urls')),
 
 ]
