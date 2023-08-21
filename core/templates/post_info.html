@@ -61,9 +61,15 @@
     <div>
         <b>{{ comment.created_by }}</b>
         {{ comment.comment_text }}
-        <a href="{% url 'comment-edit' comment.id %}">
-            Изменить
-        </a>
+
+        {% if request.user == comment.created_by %}
+            <a href="{% url 'comment-edit' comment.id %}">
+                Изменить
+            </a>
+            <a href="{% url 'comment-delete' comment.id %}">
+                Удалить
+            </a>
+        {% endif %}
     </div>
 {% endfor %}
 

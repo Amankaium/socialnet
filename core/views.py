@@ -272,6 +272,10 @@ def notifications(request):
 
 def comment_edit(request, id):
     comment = Comment.objects.get(id=id)
+
+    if request.user != comment.created_by:
+        messages.warning(request, "Нет доступа")
+        return redirect(post_detail, id=comment.post.id)
     
     if request.method == "POST":
         form = CommentForm(instance=comment, data=request.POST)
@@ -282,3 +286,14 @@ def comment_edit(request, id):
     form = CommentForm(instance=comment)
     context = {"form": form}
     return render(request, 'comment_edit.html', context)
+
+
+def comment_delete(request, id):
+    comment = Comment.objects.get(id=id)
+
+    if request.user != comment.created_by:
+        messages.warning(request, "Нет доступа")
+        return redirect(post_detail, id=comment.post.id)
+
+    comment.delete()
+    return redirect(post_detail, id=comment.post.id)
