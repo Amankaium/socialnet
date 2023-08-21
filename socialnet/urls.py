@@ -43,6 +43,7 @@ urlpatterns = [
     path('subscribe/<int:profile_id>/', subscribe, name='subscribe'),
     path('unsubscribe/<int:profile_id>/', unsubscribe, name='unsubscribe'),
     path('notifications/', notifications, name='notifications'),
+    path('comment-edit/<int:id>/', comment_edit, name='comment-edit'),
     path('users/', include('userapp.urls')),
 
 ]

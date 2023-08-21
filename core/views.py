@@ -269,3 +269,16 @@ def notifications(request):
         context=context,
     )
 
+
+def comment_edit(request, id):
+    comment = Comment.objects.get(id=id)
+    
+    if request.method == "POST":
+        form = CommentForm(instance=comment, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(post_detail, id=comment.post.id)
+
+    form = CommentForm(instance=comment)
+    context = {"form": form}
+    return render(request, 'comment_edit.html', context)

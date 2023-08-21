@@ -59,7 +59,11 @@
 <h4>Комментарии</h4>
 {% for comment in comments %}
     <div>
-        <b>{{ comment.created_by }}</b> {{ comment.comment_text }}
+        <b>{{ comment.created_by }}</b>
+        {{ comment.comment_text }}
+        <a href="{% url 'comment-edit' comment.id %}">
+            Изменить
+        </a>
     </div>
 {% endfor %}
 
