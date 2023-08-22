@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage),
     path('posts/<int:id>/', post_detail, name='post-detail'),
+    path('post-cbv/<int:id>/', PostDetailView.as_view(), name='post-detail-cbv'),
+    path('posts-list-cbv/', PostListView.as_view(), name='posts-list-cbv'),
     path('profile/<int:id>/', profile_detail, name='profile'),
     path('add-profile/', add_profile, name='add-profile'),
     path('shorts/', shorts, name='shorts-list'),
@@ -47,6 +49,7 @@ urlpatterns = [
     path('comment-delete/<int:id>/', comment_delete, name='comment-delete'),
     path('about/', AboutView.as_view(), name='about'),
     path('contacts/', ContactsView.as_view(), name='contacts'),
+    path('faq/', QuestionsView.as_view(), name='faq'),
     path('users/', include('userapp.urls')),
 
 ]

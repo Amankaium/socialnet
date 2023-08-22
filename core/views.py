@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.views import View
+from django.views.generic import ListView
 from .models import *
 from .forms import *
 
@@ -18,6 +19,9 @@ class AboutView(NoContextView):
 
 class ContactsView(NoContextView):
     template_name = 'contacts.html'
+
+class QuestionsView(NoContextView):
+    template_name = 'faq.html'
 
 # class AboutView(View):
 #     def get(self, request):
@@ -43,9 +47,12 @@ def post_detail(request, id):
     context["comment_form"] = comment_form
     comments_list = Comment.objects.filter(post=post_object)
     context['comments'] = comments_list
+    # от начала до сюда
+
     if request.method == "GET":
         return render(request, "post_info.html", context)
     elif request.method == "POST":
+        # от сюда до конца
         if 'like' in request.POST:
             post_object.likes += 1
             post_object.save()
@@ -68,6 +75,51 @@ def post_detail(request, id):
                 )
                 return HttpResponse("done")
 
+
+class PostDetailView(View):
+    def get_context(self):
+        id = self.kwargs["id"]
+        context = {}
+        post_object = Post.objects.get(id=id)
+        context["post"] = post_object
+        comment_form = CommentForm()
+        context["comment_form"] = comment_form
+        comments_list = Comment.objects.filter(post=post_object)
+        context['comments'] = comments_list
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context()
+        return render(request, "post_info.html", context) 
+    
+    def post(self, request, *args, **kwargs):
+        context = self.get_context()
+        post_object = context["post"]
+        if 'like' in request.POST:
+            post_object.likes += 1
+            post_object.save()
+            Notification.objects.create(
+                user=post_object.creator,
+                text=f"{request.user.username} лайкнул ваш пост с id {post_object.id} "
+            )
+        else:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.created_by = request.user
+                new_comment.post = post_object
+                new_comment.save()
+
+                Notification.objects.create(
+                    user=post_object.creator,
+                    text=f"{request.user.username} оставил комментарий"
+                )
+        return redirect('post-detail-cbv', id=post_object.id)
+
+
+class PostListView(ListView):
+    queryset = Post.objects.all()
+    # template_name = 'core/post_list.html'
 
 def profile_detail(request, id):
     context = {}
