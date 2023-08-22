@@ -339,6 +339,18 @@ def notifications(request):
         context=context,
     )
 
+class NotificationView(View):
+    def get(self, request):
+        notifications_list = Notification.objects.filter(user=request.user)
+        for notification in notifications_list:
+            notification.is_showed = True
+        Notification.objects.bulk_update(notifications_list, ['is_showed'])
+        context = {"notifications": notifications_list}
+        return render(
+            request=request,
+            template_name='notifications.html',
+            context=context,
+        )
 
 def comment_edit(request, id):
     comment = Comment.objects.get(id=id)

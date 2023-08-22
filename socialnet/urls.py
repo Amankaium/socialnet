@@ -46,6 +46,7 @@ urlpatterns = [
     path('subscribe/<int:profile_id>/', subscribe, name='subscribe'),
     path('unsubscribe/<int:profile_id>/', unsubscribe, name='unsubscribe'),
     path('notifications/', notifications, name='notifications'),
+    path('notifications-cbv/', NotificationView.as_view(), name='notifications-cbv'),
     path('comment-edit/<int:id>/', comment_edit, name='comment-edit'),
     path('comment-delete/<int:id>/', comment_delete, name='comment-delete'),
     path('about/', AboutView.as_view(), name='about'),

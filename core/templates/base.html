@@ -69,7 +69,7 @@
           {% if request.user.is_authenticated %}
             <div class="my-focus">Сообщения</div>
             <div class="my-focus">
-              <a href="{% url 'notifications' %}">
+              <a href="{% url 'notifications-cbv' %}">
                 Уведомления - 
                 {{ request.user.notification_set.count }}
               </a>
