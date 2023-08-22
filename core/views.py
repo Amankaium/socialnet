@@ -369,4 +369,9 @@ def comment_delete(request, id):
     return redirect(post_detail, id=comment.post.id)
 
 
-
+class SubscribesView(View):
+    def get(self, request, *args, **kwargs):
+        user_object = User.objects.get(id=kwargs['user_id'])
+        profiles_list = user_object.followed_profile.all()
+        context = {"profiles_list": profiles_list}
+        return render(request, 'subscribers.html', context)

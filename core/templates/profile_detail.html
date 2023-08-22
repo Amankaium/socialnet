@@ -5,7 +5,11 @@
     <div>Ник: {{ profile.nickname }}</div>
     <div>{{ profile.description }}</div>
     <div>Подписчиков: {{ profile.subscribers.count }}</div>
-    
+    <h3>
+        <a href="{% url 'subscribes' profile.user.id %}">
+            Подписки
+        </a>
+    </h3>
     <h3>Список подписчиков:</h3>
     <div>
         {% for user in profile.subscribers.all %}

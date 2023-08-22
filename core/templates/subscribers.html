@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for profile in profiles_list %}
+        <div>{{ profile.user.username }}</div>
+    {% endfor %}
+{% endblock %}
