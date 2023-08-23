@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import *
 from .forms import *
 
@@ -161,13 +161,32 @@ class ShortsListView(ListView):
 
 
 def short_info(request, id):
-    short = Short.objects.get(id=id)
+    try:
+        short = Short.objects.get(id=id)
+    except Short.DoesNotExist:
+        return HttpResponse(
+            "Ошибка 404. Такого объекта не существует"
+        )
     short.views_qty += 1
-    short.viewed_users.add(request.user)
+    if request.user.is_authenticated:
+        short.viewed_users.add(request.user)
     short.save()
     context = {"short": short}
     return render(request, "short_info.html", context)
 
+
+class ShortDetailView(DetailView):
+    queryset = Short.objects.all()
+    template_name = "short_info.html"
+
+    def get(self, request, *args, **kwargs):
+        short = self.get_object()
+        short.views_qty += 1
+        if request.user.is_authenticated:
+            short.viewed_users.add(request.user)
+        short.save()
+        return super().get(request, *args, **kwargs)
+    
 
 def saved_posts_list(request):
     posts = Post.objects.filter(saved_posts__user=request.user)

@@ -6,7 +6,7 @@
     {% for short in short_list %}
         <div>
             <hr>
-            <a href="{% url 'shorts-info' short.id %}">
+            <a href="{% url 'short-cbv' short.id %}">
                 {{ short.user }} - {{ short.created_at }}
             </a>
             <div>
