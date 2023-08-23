@@ -156,6 +156,10 @@ def shorts(request):
     }
     return render(request, "shorts.html", context)
 
+class ShortsListView(ListView):
+    queryset = Short.objects.all()
+
+
 def short_info(request, id):
     short = Short.objects.get(id=id)
     short.views_qty += 1
@@ -302,6 +306,23 @@ def search_result(request):
     )
     context = {"posts": posts}
     return render(request, 'home.html', context)
+
+
+class SearchView(View):
+    def get(self, request):
+        return render(request, 'search.html')
+
+
+class SearchResultView(View):
+    def get(self, request):
+        key_word = request.GET["key_word"]
+        # posts = Post.objects.filter(name__icontains=key_word)
+        posts = Post.objects.filter(
+            Q(name__icontains=key_word) |
+            Q(description__icontains=key_word)
+        )
+        context = {"posts": posts}
+        return render(request, 'home.html', context)
 
 
 def subscribe(request, profile_id):

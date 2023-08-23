@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'includes/search_form.html' %}
+    <h2>Shorts</h2>
+    {% for short in short_list %}
+        <div>
+            <hr>
+            <a href="{% url 'shorts-info' short.id %}">
+                {{ short.user }} - {{ short.created_at }}
+            </a>
+            <div>
+                <video width="350px" src="{{ short.video.url }}">
+                </video>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
