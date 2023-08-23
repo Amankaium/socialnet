@@ -4,8 +4,10 @@ from django.contrib import messages
 from django.db.models import Q
 from django.views import View
 from django.views.generic import ListView, DetailView
+from django_filters.views import FilterView
 from .models import *
 from .forms import *
+from .filters import *
 
 
 class NoContextView(View):
@@ -151,13 +153,20 @@ def add_profile(request):
 
 
 def shorts(request):
-    context = {
-        'shorts_list': Short.objects.all()
-    }
+    short_filter = ShortFilter(
+        request.GET,
+        queryset=Short.objects.all()
+    )
+    context = {'short_filter': short_filter}
     return render(request, "shorts.html", context)
 
 class ShortsListView(ListView):
     queryset = Short.objects.all()
+
+class ShortsFilterView(FilterView):
+    model = Short
+    filterset_class = ShortFilter
+    # filterset_fields = ['id', 'user', 'views_qty']
 
 
 def short_info(request, id):

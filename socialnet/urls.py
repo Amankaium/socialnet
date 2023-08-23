@@ -31,6 +31,7 @@ urlpatterns = [
     path('add-profile/', add_profile, name='add-profile'),
     path('shorts/', shorts, name='shorts-list'),
     path('shorts-cbv/', ShortsListView.as_view(), name='shorts-cbv'),
+    path('shorts-filter/', ShortsFilterView.as_view(), name='shorts-filter'),
     path('short/<int:id>/', short_info, name='shorts-info'),
     path('short-cbv/<int:pk>/', ShortDetailView.as_view(), name='short-cbv'),
     path('add-short/', add_short, name='add-short'),

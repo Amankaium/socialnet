@@ -5,13 +5,13 @@
     {% include 'includes/search_form.html' %}
     <hr>
         <form method="get">
-            {% bootstrap_form short_filter.form %}
+            {% bootstrap_form filter.form %}
             <button class="btn btn-info">Применить</button>
         </form>
     <hr>
 
     <h2>Shorts</h2>
-    {% for short in short_filter.qs %}
+    {% for short in filter.qs %}
         <div>
             <hr>
             <a href="{% url 'shorts-info' short.id %}">
@@ -22,5 +22,7 @@
                 </video>
             </div>
         </div>
+    {% empty %}
+        <div>Нет записей, удовлетворяющих указанным условиям</div>
     {% endfor %}
 {% endblock %}
