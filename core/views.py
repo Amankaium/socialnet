@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django_filters.views import FilterView
+import requests
 from .models import *
 from .forms import *
 from .filters import *
@@ -17,7 +18,7 @@ class NoContextView(View):
         return render(request, self.template_name)
 
 class AboutView(NoContextView):
-    template_name = 'about.html'
+    template_name = 'core/about.html'
 
 class ContactsView(NoContextView):
     template_name = 'contacts.html'
@@ -123,6 +124,23 @@ class PostListView(ListView):
     queryset = Post.objects.all()
     # template_name = 'core/post_list.html'
 
+
+class PostsFromAPI(View):
+    def get(self, request):
+        context = {}
+        response = requests.get("https://jsonplaceholder.typicode.com/posts")
+        data = response.json()
+        context["posts"] = data
+        return render(request, 'core/posts_from_api.html', context)
+
+class PostDetailFromAPI(View):
+    def get(self, request, *args, **kwargs):
+        id = kwargs['id']
+        response = requests.get(f'https://jsonplaceholder.typicode.com/posts/{id}')
+        post_data = response.json()
+        return render(request, 'core/post_from_api.html', {'post': post_data})
+
+
 def profile_detail(request, id):
     context = {}
     profile = Profile.objects.get(id=id)
@@ -166,6 +184,8 @@ class ShortsListView(ListView):
 class ShortsFilterView(FilterView):
     model = Short
     filterset_class = ShortFilter
+    # template_name = 'app/model_filter.html'
+    # template_name = 'core/short_filter.html'
     # filterset_fields = ['id', 'user', 'views_qty']
 
 
