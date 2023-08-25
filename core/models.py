@@ -64,6 +64,9 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.name} - {self.status}'
 
+    class Meta:
+        ordering = ['id']
+
 class Category(models.Model):
     RATING_CHOICES = (
         (1, 1),
